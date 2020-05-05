@@ -39,6 +39,7 @@ d3.csv("./towers.csv").then(function(data){
                .range([0,width])
                .paddingInner(0.9)
                .paddingOuter(0.3);
+               
             
                console.log(x("africa"));
                console.log(x("america"));
