@@ -15,6 +15,7 @@ d.profit = +d.profit});
 
   //console.log(data);
   //attach svg
+  
   var svg = d3.select('#chart-area')
                 .append('svg')
                 .attr('width', width + margin.left + margin.right)
@@ -23,13 +24,16 @@ d.profit = +d.profit});
                 .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
                 //scales
+              
+                
                 const extent = d3.extent(data.map(d=>d.revenue));
+                const yMax = d3.max(data, d=> d.revenue);
                 console.log(extent);
-                const y_s = d3.scaleLinear()
-                                .domain(extent)
-                                .range([height, -10]);
+                var y_s = d3.scaleLinear([1000, yMax], [height, -10]);
+                            //    .domain([1000, yMax])
+                            //    .range([height, -10]);
 
-                const x_s = d3.scaleBand()
+                var x_s = d3.scaleBand()
                               .domain(data.map(d=>d.month))
                               .rangeRound([0, width])
                               .paddingInner(0.4)
@@ -53,21 +57,27 @@ d.profit = +d.profit});
                               .attr('x', '-5')
                               .attr('y', '10')
                               .attr('text-anchor', 'end')
-                              .attr('transform', 'rotate(-40)');          
-                                
+                              .attr('transform', 'rotate(-40)');   
+               
+                      
+             
                
                 //select rectangles of the bar chart
-                const rects = svg.selectAll('rects')
-                                .data(data);
+               const rects = svg.selectAll('rects')
+                              .data(data);
 
                 //data join
-                rects.enter()
+               rects.enter()
                 .append('rect')
                 .attr('x', ((d,i)=>x_s(d.month)))
                 .attr('y', (d=>y_s(d.revenue)))
                 .attr('width', x_s.bandwidth)
                 .attr('height', ((d,i)=>height-y_s(d.revenue)))
                 .attr('fill', 'dodgerblue');
-       
+                
+                  
+
 
 }).catch(error=>console.log(error));
+
+
